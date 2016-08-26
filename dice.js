@@ -12,7 +12,6 @@ var preventOverlap = function (dice) {
         xDelta = Math.abs(dice[ix].position[0]-dice[iy].position[0]);
         yDelta = Math.abs(dice[ix].position[1]-dice[iy].position[1]);
         if (xDelta < 50 && yDelta < 50) {
-          console.log("Overlap prevention triggered");
           rotate = Math.floor(120*Math.random())-60;
           dice[ix].position[0] -= 50+(Math.random()*50);
           dice[ix].position[1] -= 50+(Math.random()*50);
