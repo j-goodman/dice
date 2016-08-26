@@ -1,0 +1,81 @@
+<script src='dice.js'></script>
+
+<dice class='black'></dice>
+<dice class='red'></dice>
+<dice class='black'></dice>
+<dice class='red'></dice>
+<dice class='black'></dice>
+
+<tabletop>
+  <div class="hold-bar"></div>
+  <div class="roll-slider">
+    <div class="lever"></div>
+    <h4>Slide to roll.</h4>
+    <h4>Click dice to hold them.</h4>
+    <h4 class="meter">Current value:</h4>
+    <h4>Threes are worth zero, shoot as low as you can. You have to hold at least one after every roll.</h4>
+  </div>
+</tabletop>
+
+<style>
+  body {
+    background: #281810;
+    font-family: monospace;
+  }
+
+  dice {
+    border-radius: 4px;
+    display: block;
+    font-size: 30px;
+    height: 50px;
+    left: 0;
+    line-height: 50px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 50px;
+    z-index: 1000;
+  }
+
+  tabletop {
+    display: block;
+    background: #E1B05E;
+    border: 2px solid #945510;
+    height: 70%;
+    left: 750px;
+    margin-top: 50px;
+    padding-top: 50px;
+    position: relative;
+    width: 350px;
+  }
+
+  .hold-bar, .roll-slider {
+    background: #945510;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 50px;
+    padding: 5px 30px 5px 30px;
+    width: 250px;
+  }
+
+  .lever {
+    background: #281810;
+    height: 50px;
+    width: 50px;
+  }
+
+  .lever:hover {
+    background: #130A0B;
+  }
+
+  .black {
+    color: #FCF6E6; /* white */
+    background: #130A0B; /* black */
+  }
+
+  .red {
+    color: #130A0B; /* red */
+    background: #CB1601; /* black */
+  }
+
+</style>
