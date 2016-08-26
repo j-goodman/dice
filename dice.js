@@ -5,10 +5,23 @@ var getDice = function () {
 };
 
 var preventOverlap = function (dice) {
-  var ix; var iy;
+  var ix; var iy; var xDelta; var yDelta; var rotate;
   for (ix = 0 ; ix < dice.length ; ix++) {
-    for (iy = ix ; iy < dice.length ; iy++) {
-      console.log([ix, iy]);
+    for (iy = ix+1 ; iy < dice.length ; iy++) {
+      if (!dice[ix].fixed && !dice[iy].fixed) {
+        xDelta = Math.abs(dice[ix].position[0]-dice[iy].position[0]);
+        yDelta = Math.abs(dice[ix].position[1]-dice[iy].position[1]);
+        if (xDelta < 50 && yDelta < 50) {
+          console.log("Overlap prevention triggered");
+          rotate = Math.floor(120*Math.random())-60;
+          dice[ix].position[0] -= 50+(Math.random()*50);
+          dice[ix].position[1] -= 50+(Math.random()*50);
+          dice[ix].style.transform = 'translate('+dice[ix].position[0]+'px, '+dice[ix].position[1]+'px) rotate('+rotate+'deg)';
+          dice[iy].position[0] += 50+(Math.random()*50);
+          dice[iy].position[1] += 50+(Math.random()*50);
+          dice[iy].style.transform = 'translate('+dice[iy].position[0]+'px, '+dice[iy].position[1]+'px) rotate('+rotate+'deg)';
+        }
+      }
     }
   }
 };
@@ -23,6 +36,7 @@ var setDice = function (dice, isInitialSetup) {
       x = 200+Math.random()*500;
       y = 100+Math.random()*300;
       rotate = Math.floor(120*Math.random())-60;
+      die.position = [x, y];
       die.style.transform = 'translate('+x+'px, '+y+'px) rotate('+rotate+'deg)';
       die.innerText = Math.ceil(Math.random()*6);
     }
