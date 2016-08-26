@@ -4,7 +4,16 @@ var getDice = function () {
   return dice;
 };
 
-var setDice = function (dice) {
+var preventOverlap = function (dice) {
+  var ix; var iy;
+  for (ix = 0 ; ix < dice.length ; ix++) {
+    for (iy = ix ; iy < dice.length ; iy++) {
+      console.log([ix, iy]);
+    }
+  }
+};
+
+var setDice = function (dice, isInitialSetup) {
   // Place the dice in random starting positions.
   var ii; var die; var x; var y; var rotate; var value; var meter;
   value = 0;
@@ -21,6 +30,8 @@ var setDice = function (dice) {
       value += parseInt(dice[ii].innerText);
     }
   }
+  preventOverlap(dice);
+  if (!isInitialSetup) { readyToRoll = false; }
   meter = document.getElementsByClassName('meter')[0];
   meter.innerText = 'Current value: '+value;
 };
@@ -38,7 +49,7 @@ var setSlider = function (dice) {
     }.bind(this);
   };
   document.onmouseup = function () {
-    var returnToRest; var timeout;
+    var returnToRest; var timeout; var rules;
     document.onmousemove = undefined;
     returnToRest = function () {
       if (lever.position > -20) {
@@ -50,8 +61,14 @@ var setSlider = function (dice) {
       }
     };
     returnToRest();
-    if (lever.position > 120) {
+    if (lever.position > 120 && readyToRoll) {
       setDice(dice);
+    } else if (lever.position > 120 && !readyToRoll) {
+      rules = document.getElementsByClassName('rules')[0];
+      rules.innerText = "You have to click to hold at least one die before you can roll again.";
+      window.setTimeout(function () {
+        rules.innerText = "Threes are worth zero, shoot as low as you can. You have to hold at least one before you can roll again.";
+      }, 3000);
     }
   };
 };
@@ -60,20 +77,32 @@ var fixedCount = 0;
 var readyToRoll = true;
 
 var onClick = function (e) {
-  var die;
+  var die; var meter; var rules; var value; var dice; var ia;
+  readyToRoll = true;
   die = e.target;
   die.style.transform = 'translate('+(786+fixedCount*62)+'px, 107px)';
   fixedCount++;
   die.fixed = true;
+  if (fixedCount == 5) {
+    meter = document.getElementsByClassName('meter')[0];
+    rules = document.getElementsByClassName('rules')[0];
+    dice = document.getElementsByTagName('dice');
+    value = meter.innerText.split(':')[1];
+    meter.innerText = 'Final value: '+value;
+    rules.innerText = '';
+    for (ia=0 ; ia < dice.length ; ia++) {
+      dice[ia].fixed = false;
+    }
+  }
 };
 
 window.onload = function () {
-  var dice; var ix;
+  var dice; var iz;
   dice = getDice();
-  setDice(dice);
+  setDice(dice, true);
   setSlider(dice);
-  for (ix=0 ; ix < dice.length ; ix++) {
-    dice[ix].fixed = false;
-    dice[ix].onclick = onClick;
+  for (iz=0 ; iz < dice.length ; iz++) {
+    dice[iz].fixed = false;
+    dice[iz].onclick = onClick;
   }
 };
