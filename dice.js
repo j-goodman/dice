@@ -78,11 +78,13 @@ var readyToRoll = true;
 
 var onClick = function (e) {
   var die; var meter; var rules; var value; var dice; var ia;
-  readyToRoll = true;
   die = e.target;
-  die.style.transform = 'translate('+(786+fixedCount*62)+'px, 107px)';
-  fixedCount++;
-  die.fixed = true;
+  if (!die.fixed) {
+    readyToRoll = true;
+    die.style.transform = 'translate('+(786+fixedCount*62)+'px, 107px)';
+    fixedCount++;
+    die.fixed = true;
+  }
   if (fixedCount == 5) {
     meter = document.getElementsByClassName('meter')[0];
     rules = document.getElementsByClassName('rules')[0];
