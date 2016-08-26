@@ -93,6 +93,7 @@ var onClick = function (e) {
     for (ia=0 ; ia < dice.length ; ia++) {
       dice[ia].fixed = false;
     }
+    fixedCount = 0;
   }
 };
 
